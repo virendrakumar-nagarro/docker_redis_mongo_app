@@ -1,0 +1,32 @@
+version: "3.0"
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: "redis"
+    ports:
+      - "6378:6379"
+    networks:
+      - redis_app_net
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: "mongodb"
+    ports:
+      - "27017:27017"
+    networks:
+      - redis_app_net
+  docker_redis_mongo_app:
+    image: virendrakumarnagarro/docker_redis_mongo_app:1.0
+    restart: always
+    container_name: "docker_redis_mongo_app"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+      - mongodb
+    networks:
+      - redis_app_net
+networks:
+  redis_app_net:
+    driver: bridge
