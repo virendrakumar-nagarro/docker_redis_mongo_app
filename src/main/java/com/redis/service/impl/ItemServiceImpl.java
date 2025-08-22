@@ -26,7 +26,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Cacheable(value = "user", key = "#id")
+    @Cacheable(value = "item", key = "#id")
     public Optional<Item> findById(String id) {
         return itemRepository.findById(id);
     }

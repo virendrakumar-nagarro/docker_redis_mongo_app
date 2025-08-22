@@ -1,7 +1,6 @@
 package com.redis.controller;
 
 import com.redis.model.Item;
-import com.redis.repository.ItemRepository;
 import com.redis.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ItemController {
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Autowired
     private ItemService itemService;
