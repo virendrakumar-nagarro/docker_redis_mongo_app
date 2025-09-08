@@ -5,7 +5,7 @@ services:
     restart: always
     container_name: "redis"
     ports:
-      - "6378:6379"
+      - "6379:6379"
     networks:
       - redis_app_net
   mongodb:
@@ -14,10 +14,26 @@ services:
     container_name: "mongodb"
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/config
     networks:
       - redis_app_net
+  bench:
+    image: docker/docker-bench-security:latest
+    container_name: docker-bench-security
+    restart: "no"
+    volumes:
+      - /var/lib:/var/lib:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /usr/lib/systemd:/usr/lib/systemd:ro
+      - /etc:/etc:ro
+      - /usr/bin/container:/usr/bin/container:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /etc/docker:/etc/docker:ro
+    command: /docker-bench-security.sh
   docker_redis_mongo_app:
-    image: virendrakumarnagarro/docker_redis_mongo_app:1.0
+    build: .
     restart: always
     container_name: "docker_redis_mongo_app"
     ports:
@@ -30,3 +46,6 @@ services:
 networks:
   redis_app_net:
     driver: bridge
+volumes:
+  mongodb_data:
+  mongodb_config:
